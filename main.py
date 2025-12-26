@@ -1078,7 +1078,7 @@ async def txt_handler(bot: Client, m: Message):
             elif "classplusapp.com/drm/" in url:
                 url = f""
                 #url = f"https://head-micheline-botupdatevip-f1804c58.koyeb.app"
-                mpd, keys = helper.get_mps_and_keys(url)
+                mpd, keys = helper.get_mps_and_keys2(url)
                 url = mpd
                 keys_string = " ".join([f"--key {key}" for key in keys])
 
