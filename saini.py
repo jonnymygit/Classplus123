@@ -29,12 +29,30 @@ def duration(filename):
         stderr=subprocess.STDOUT)
     return float(result.stdout)
 
-def get_mps_and_keys(api_url):
-    response = requests.get(api_url)
-    response_json = response.json()
-    mpd = response_json.get('mpd_url')
-    keys = response_json.get('keys')
-    return mpd, keys
+# In saini.py or helper.py, add these new functions:
+
+def get_mps_and_keys2(api_url):
+    """For DRM content - returns mpd and keys"""
+    try:
+        response = requests.get(api_url, timeout=30)
+        response_json = response.json()
+        mpd = response_json.get('mpd_url')
+        keys = response_json.get('keys', [])
+        return mpd, keys
+    except Exception as e:
+        logging.error(f"Error in get_mps_and_keys2: {e}")
+        return None, []
+
+def get_mps_and_keys3(api_url):
+    """For non-DRM content - returns signed URL"""
+    try:
+        response = requests.get(api_url, timeout=30)
+        response_json = response.json()
+        mpd = response_json.get('url')
+        return mpd
+    except Exception as e:
+        logging.error(f"Error in get_mps_and_keys3: {e}")
+        return None
    
 def exec(cmd):
         process = subprocess.run(cmd, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
